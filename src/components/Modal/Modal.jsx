@@ -1,20 +1,26 @@
 import { Component } from 'react';
+import { createPortal } from 'react-dom';
 import { Backdrop, Content } from './Modal.styled';
+
+const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
   componentDidMount() {
-    console.log('I see modal');
+    window.addEventListener('keydown', event => {
+      if (event.code === 'Escape') {
+        this.props.onClose();
+      }
+    });
   }
 
-  componentWillUnmount() {
-    console.log('I cant  see modal ');
-  }
+  componentWillUnmount() {}
 
   render() {
-    return (
+    return createPortal(
       <Backdrop>
         <Content>{this.props.children}</Content>
-      </Backdrop>
+      </Backdrop>,
+      modalRoot
     );
   }
 }
