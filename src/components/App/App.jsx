@@ -1,19 +1,40 @@
 import { Component } from 'react';
 import { Modal } from '../Modal/Modal';
+import { Searchbar } from 'components/Searchbar/Searchbar';
+import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 
 export class App extends Component {
   state = {
+    images: null,
     showMadal: false,
+    loading: false,
   };
+
+  handleFormSubmit = images => {
+    console.log(images);
+  };
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    fetch(
+      'https://pixabay.com/api/?q=cat&page=1&key=31618598-dd0b87f36bc5180b6dfd99237&image_type=photo&orientation=horizontal&per_page=12'
+    )
+      .then(res => res.json())
+      .then(images => this.setState({ images }))
+      .finally(() => this.setState({ loading: false }));
+  }
 
   toggleModal = () => {
     this.setState(state => ({ showMadal: !state.showMadal }));
   };
   render() {
-    const { showMadal } = this.state;
+    const { showMadal, images } = this.state;
 
     return (
       <div>
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        {this.state.loading && <h1>Loading ...</h1>}
+        {images && <ImageGallery />}
         <button type="button" onClick={this.toggleModal}>
           Open Modal
         </button>
