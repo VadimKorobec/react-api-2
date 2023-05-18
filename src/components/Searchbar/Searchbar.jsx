@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import toast from 'react-hot-toast';
 
 export class Searchbar extends Component {
   state = {
@@ -6,12 +7,14 @@ export class Searchbar extends Component {
   };
 
   handleImagesChange = event => {
-    this.setState({ images: event.currentTarget.value.toLowerCase().trim() });
+    this.setState({ images: event.currentTarget.value.toLowerCase() });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-
+    if (this.state.images.trim() === '') {
+      return toast.error('Please name image');
+    }
     this.props.onSubmit(this.state.images);
     this.reset();
   };
