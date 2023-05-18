@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Modal } from '../Modal/Modal';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
@@ -51,6 +52,7 @@ export class App extends Component {
             </button>
           </Modal>
         )}
+        <Toaster position="top-right" reverseOrder={false} />
       </div>
     );
   }
